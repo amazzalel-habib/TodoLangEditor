@@ -1,3 +1,5 @@
 dist
 parser
 node_modules
+src/ANTLR
+ANTLR
