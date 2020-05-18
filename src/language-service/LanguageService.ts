@@ -8,6 +8,26 @@ export default class TodoLangLanguageService {
         const ast: TodoExpressionsContext = parseAndGetASTRoot(code);
         return syntaxErrors.concat(checkSemanticRules(ast));
     }
+    format(code: string): string{
+        // if the code contains errors, no need to format, because this way of formating the code, will remove some of the code
+        // to make things simple, we only allow formatting a valide code
+        if(this.validate(code).length > 0)
+            return code;
+        let formattedCode = "";
+        const ast: TodoExpressionsContext = parseAndGetASTRoot(code);
+        ast.children.forEach(node => {
+            if (node instanceof AddExpressionContext) {
+                // if a Add expression : ADD TODO "STRING"
+                const todo = node.STRING().text;
+                formattedCode += `ADD TODO ${todo}\n`;
+            }else if(node instanceof CompleteExpressionContext) {
+                // If a Complete expression: COMPLETE TODO "STRING"
+                const todoToComplete = node.STRING().text;
+                formattedCode += `COMPLETE TODO ${todoToComplete}\n`;
+            }
+        });
+        return formattedCode;
+    }
 }
 
 function checkSemanticRules(ast: TodoExpressionsContext): ITodoLangError[] {

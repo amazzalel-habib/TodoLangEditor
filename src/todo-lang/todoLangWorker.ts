@@ -18,6 +18,9 @@ export class TodoLangWorker {
         const code = this.getTextDocument();
         return Promise.resolve(this.languageService.validate(code));
     }
+    format(code: string): Promise<string>{
+        return Promise.resolve(this.languageService.format(code));
+    }
     private getTextDocument(): string {
         const model = this._ctx.getMirrorModels()[0];// When there are multiple files open, this will be an array
         return model.getValue();

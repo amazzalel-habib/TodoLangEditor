@@ -4,6 +4,7 @@ import { richLanguageConfiguration, monarchLanguage } from "./TodoLang";
 import { TodoLangWorker } from "./todoLangWorker";
 import { WorkerManager } from "./WorkerManager";
 import DiagnosticsAdapter from "./DiagnosticsAdapter";
+import TodoLangFormattingProvider from "./TodoLangFormattingProvider";
 
 export function setupLanguage() {
     (window as any).MonacoEnvironment = {
@@ -24,6 +25,7 @@ export function setupLanguage() {
         };
         //Call the errors provider
         new DiagnosticsAdapter(worker);
+        monaco.languages.registerDocumentFormattingEditProvider(languageID, new TodoLangFormattingProvider(worker));
     });
 
 }
