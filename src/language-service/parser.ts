@@ -7,14 +7,14 @@ function parse(code: string): {ast:TodoExpressionsContext, errors: ITodoLangErro
     const inputStream = new ANTLRInputStream(code);
     const lexer = new TodoLangGrammarLexer(inputStream);
     lexer.removeErrorListeners()
-    const todoLangErrorsListner = new TodoLangErrorListener();
-    lexer.addErrorListener(todoLangErrorsListner);
+    const todoLangErrorsListener = new TodoLangErrorListener();
+    lexer.addErrorListener(todoLangErrorsListener);
     const tokenStream = new CommonTokenStream(lexer);
     const parser = new TodoLangGrammarParser(tokenStream);
     parser.removeErrorListeners();
-    parser.addErrorListener(todoLangErrorsListner);
+    parser.addErrorListener(todoLangErrorsListener);
     const ast =  parser.todoExpressions();
-    const errors: ITodoLangError[]  = todoLangErrorsListner.getErrors();
+    const errors: ITodoLangError[]  = todoLangErrorsListener.getErrors();
     return {ast, errors};
 }
 export function parseAndGetASTRoot(code: string): TodoExpressionsContext {
